@@ -4,3 +4,4 @@ yarn-error.log
 dist
 tsconfig.tsbuildinfo
 .eslintcache
+session-store.db

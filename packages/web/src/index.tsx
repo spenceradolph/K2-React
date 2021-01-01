@@ -1,15 +1,21 @@
+import { setupStore } from '@monorepo/common';
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { CommonType } from '@monorepo/common';
+import { Provider } from 'react-redux';
+import { io } from 'socket.io-client';
+import { App } from './components';
+import './Style.css';
 
-const someTest: CommonType = {
-    a: 2,
-    b: 4
-};
+const socket = io(`${window.location.hostname}`, {
+    transports: ['websocket', 'polling'],
+    upgrade: true,
+    rememberUpgrade: true,
+    secure: true
+});
 
 ReactDOM.render(
-    <React.StrictMode>
-        <h1>Testing {someTest.a}</h1>
-    </React.StrictMode>,
+    <Provider store={setupStore(socket)}>
+        <App />
+    </Provider>,
     document.getElementById('root')
 );
