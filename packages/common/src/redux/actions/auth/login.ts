@@ -16,7 +16,7 @@ export type LoginAction = {
     };
 };
 
-export const login = async (section: string, instructor: string, team: TeamType) => {
+export const login = (section: string, instructor: string, team: TeamType) => {
     return (dispatch: Dispatch, getState: () => FullState, sendToServer: Emit) => {
         const loginAction: LoginAction = {
             type: LOGIN,

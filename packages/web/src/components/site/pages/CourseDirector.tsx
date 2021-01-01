@@ -1,44 +1,40 @@
-import { addGame, AuthState, CourseDirectorState, deleteGame } from '@monorepo/common';
+import { addGame, deleteGame, FullState } from '@monorepo/common';
 import { Properties } from 'csstype';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 const styling: Properties = {
     border: '1px solid #555555'
 };
 
-interface Props {
-    auth: AuthState;
-    courseDirector: CourseDirectorState;
-    addGame: typeof addGame;
-    deleteGame: typeof deleteGame;
-}
+export const CourseDirector = () => {
+    const dispatch = useDispatch();
+    const { auth, courseDirector } = useSelector((state: FullState) => state);
 
-export const CourseDirector = ({ auth, courseDirector, addGame, deleteGame }: Props) => {
     const history = useHistory();
-
-    if (!auth.session.courseDirector) {
-        history.push('/');
-    }
+    useEffect(() => {
+        if (!auth.session.courseDirector) {
+            history.push('/');
+        }
+    });
 
     const [addSection, setAddSection] = useState('');
     const [addInstructor, setAddInstructor] = useState('');
     const [addPassword, setAddPassword] = useState('');
     const [addPasswordConfirm, setAddPasswordConfirm] = useState('');
-
     const [deleteGameId, setDeleteGameId] = useState('');
 
     const addGameSubmit = (e: FormEvent) => {
         e.preventDefault();
-        addGame(addSection, addInstructor, addPassword, addPasswordConfirm);
+        dispatch(addGame(addSection, addInstructor, addPassword, addPasswordConfirm));
     };
 
     const deleteGameSubmit = (e: FormEvent) => {
         e.preventDefault();
-        // TODO: disable for entire project?
         // eslint-disable-next-line no-restricted-globals
         if (confirm('ARE YOU SURE YOU WANT TO DELETE THIS GAME?')) {
-            deleteGame(parseInt(deleteGameId));
+            dispatch(deleteGame(parseInt(deleteGameId)));
         }
     };
 

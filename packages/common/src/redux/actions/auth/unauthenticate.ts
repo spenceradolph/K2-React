@@ -8,7 +8,7 @@ export type UnauthenticateAction = {
     type: typeof UNAUTHENTICATE;
 };
 
-export const unauthenticate = async () => {
+export const unauthenticate = () => {
     return (dispatch: Dispatch, getState: () => FullState, sendToServer: Emit) => {
         const { auth } = getState();
 

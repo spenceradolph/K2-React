@@ -1,54 +1,51 @@
-import { adminLogin, AuthState, BLUE, login, RED, SPEC, TeamType } from '@monorepo/common';
+import { adminLogin, BLUE, FullState, login, RED, SPEC, TeamType } from '@monorepo/common';
+import { useEffect } from 'react';
 import { FormEvent, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
-interface Props {
-    auth: AuthState;
-    login: typeof login;
-    adminLogin: typeof adminLogin;
-}
+export const Homepage = (): any => {
+    const dispatch = useDispatch();
+    const { session, databaseStatus } = useSelector((state: FullState) => state.auth);
 
-export const Homepage = ({ login, auth, adminLogin }: Props): any => {
-    let history = useHistory();
+    const history = useHistory();
+    useEffect(() => {
+        if (session) {
+            if (session.courseDirector) {
+                history.push('/courseDirector');
+            } else if (session.teacher) {
+                history.push('/teacher');
+            } else if (session.game) {
+                history.push('/game');
+            }
+        }
+    });
 
     const gameLoginError = ''; // TODO: list errors here (from dispatch reducer?)
     const databaseStatuses = ['Loading...', 'FAILED', 'SUCCESS'];
     const databaseColors = ['grey', 'red', 'green'];
-    const databaseStatus = (
-        <div style={{ color: databaseColors[auth.databaseStatus], display: 'inline-block' }}>{databaseStatuses[auth.databaseStatus]}</div>
-    );
+    const dbStatus = <div style={{ color: databaseColors[databaseStatus], display: 'inline-block' }}>{databaseStatuses[databaseStatus]}</div>;
 
     const [section, setSection] = useState('');
     const [instructor, setInstructor] = useState('');
     const [team, setTeam] = useState<TeamType>(SPEC);
-
     const [adminSection, setAdminSection] = useState('');
     const [adminInstructor, setAdminInstructor] = useState('');
     const [adminPassword, setAdminPassword] = useState('');
 
     const gameLoginSubmit = (e: FormEvent) => {
         e.preventDefault();
-        login(section, instructor, team);
+        dispatch(login(section, instructor, team));
     };
 
     const adminLoginSubmit = (e: FormEvent) => {
         e.preventDefault();
-        adminLogin(adminSection, adminInstructor, adminPassword);
+        dispatch(adminLogin(adminSection, adminInstructor, adminPassword));
     };
-
-    if (auth.session) {
-        if (auth.session.courseDirector) {
-            history.push('/courseDirector');
-        } else if (auth.session.teacher) {
-            history.push('/teacher');
-        } else if (auth.session.game) {
-            history.push('/game');
-        }
-    }
 
     return (
         <>
-            Database Active Status: {databaseStatus}
+            Database Active Status: {dbStatus}
             <table cellPadding="30" cellSpacing="10">
                 <tbody>
                     <tr>

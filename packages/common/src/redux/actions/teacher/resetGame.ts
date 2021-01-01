@@ -8,7 +8,7 @@ export type ResetGameAction = {
     type: typeof RESET_GAME;
 };
 
-export const resetGame = async () => {
+export const resetGame = () => {
     return (dispatch: Dispatch, getState: () => FullState, sendToServer: Emit) => {
         const resetGameAction: ResetGameAction = {
             type: RESET_GAME

@@ -1,11 +1,10 @@
 import { unauthenticate } from '@monorepo/common';
+import { useDispatch } from 'react-redux';
 import { NavLink, Route, Switch } from 'react-router-dom';
 
-type Props = {
-    unauthenticate: typeof unauthenticate;
-};
+export const Navbar = () => {
+    const dispatch = useDispatch();
 
-export const Navbar = ({ unauthenticate }: Props) => {
     return (
         <>
             <Switch>
@@ -19,7 +18,7 @@ export const Navbar = ({ unauthenticate }: Props) => {
             <nav style={{ overflow: 'auto' }}>
                 <NavLink
                     onClick={() => {
-                        unauthenticate();
+                        dispatch(unauthenticate());
                     }}
                     exact
                     to="/"
@@ -28,7 +27,7 @@ export const Navbar = ({ unauthenticate }: Props) => {
                 </NavLink>
                 <NavLink
                     onClick={() => {
-                        unauthenticate();
+                        dispatch(unauthenticate());
                     }}
                     exact
                     to="/troubleshoot"
@@ -37,7 +36,7 @@ export const Navbar = ({ unauthenticate }: Props) => {
                 </NavLink>
                 <NavLink
                     onClick={() => {
-                        unauthenticate();
+                        dispatch(unauthenticate());
                     }}
                     exact
                     to="/credits"

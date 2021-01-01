@@ -1,6 +1,7 @@
 import express from 'express';
 import session from 'express-session';
 import http from 'http';
+import createMemoryStore from 'memorystore';
 import { Server, Socket } from 'socket.io';
 import { router } from './router';
 import { socketSetup } from './socketSetup';
@@ -10,13 +11,15 @@ const app = express();
 const server = http.createServer(app);
 
 // Create the session store
-const LokiStore = require('connect-loki')(session);
+const MemoryStore = createMemoryStore(session);
 const sessionMiddleware = session({
     secret: process.env.SESSION_SECRET || 'asdf123DefAuLt__secRet*&^%',
-    store: new LokiStore(),
-    cookie: { maxAge: 10800000 }, // 3 hours
-    resave: false,
-    saveUninitialized: false
+    store: new MemoryStore({
+        checkPeriod: 8 * 60 * 60 * 1000
+    }),
+    cookie: { maxAge: 8 * 60 * 60 * 1000 }, // 8 hours
+    resave: true,
+    saveUninitialized: true
 });
 
 // App has access to sessions

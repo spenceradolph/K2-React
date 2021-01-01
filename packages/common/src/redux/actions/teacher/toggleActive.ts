@@ -8,7 +8,7 @@ export type ToggleActiveAction = {
     type: typeof TOGGLE_ACTIVE;
 };
 
-export const toggleActive = async () => {
+export const toggleActive = () => {
     return (dispatch: Dispatch, getState: () => FullState, sendToServer: Emit) => {
         const toggleActiveAction: ToggleActiveAction = {
             type: TOGGLE_ACTIVE

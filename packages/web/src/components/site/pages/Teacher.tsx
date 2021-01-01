@@ -1,23 +1,23 @@
+import { FullState, resetGame, toggleActive } from '@monorepo/common';
+import { useEffect } from 'react';
 import { FormEvent } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-import { AuthState, resetGame, toggleActive } from '@monorepo/common';
 
-interface Props {
-    auth: AuthState;
-    toggleActive: typeof toggleActive;
-    resetGame: typeof resetGame;
-}
+export const Teacher = () => {
+    const dispatch = useDispatch();
+    const { auth } = useSelector((state: FullState) => state);
 
-export const Teacher = ({ auth, toggleActive, resetGame }: Props) => {
     const history = useHistory();
-
-    if (!auth.session.teacher) {
-        history.push('/');
-    }
+    useEffect(() => {
+        if (!auth.session.teacher) {
+            history.push('/');
+        }
+    });
 
     const submitToggleActive = (e: FormEvent) => {
         e.preventDefault();
-        toggleActive();
+        dispatch(toggleActive());
     };
 
     const submitResetGame = (e: FormEvent) => {
@@ -30,7 +30,7 @@ export const Teacher = ({ auth, toggleActive, resetGame }: Props) => {
                     'This will delete all information for the game and set it back to the initial start state of the game.\n\n   ARE YOU SURE YOU WANT TO RESET?'
                 )
             ) {
-                resetGame();
+                dispatch(resetGame());
                 // TODO: also resets the gameActive? (in session and in reducer)
                 // TODO: consider disabling the button temporarily while the request is being processed by the server...
             }

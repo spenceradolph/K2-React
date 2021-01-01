@@ -13,7 +13,7 @@ export type AddGameAction = {
     };
 };
 
-export const addGame = async (section: string, instructor: string, password: string, passwordConfirm: string) => {
+export const addGame = (section: string, instructor: string, password: string, passwordConfirm: string) => {
     return (dispatch: Dispatch, getState: () => FullState, sendToServer: Emit) => {
         if (password !== passwordConfirm) {
             alert("passwords don't match"); // TODO: better user feedback about matching passwords? (what did k2 do?)

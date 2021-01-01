@@ -11,7 +11,7 @@ export type DeleteGameAction = {
     };
 };
 
-export const deleteGame = async (gameId: number) => {
+export const deleteGame = (gameId: number) => {
     return (dispatch: Dispatch, getState: () => FullState, sendToServer: Emit) => {
         const deleteGameAction: DeleteGameAction = {
             type: DELETE_GAME,

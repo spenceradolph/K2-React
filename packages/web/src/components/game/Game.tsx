@@ -1,7 +1,8 @@
 import { FullState } from '@monorepo/common';
 import { Properties } from 'csstype';
-import { connect, ConnectedProps } from 'react-redux';
-import { Redirect } from 'react-router-dom';
+import { useEffect } from 'react';
+import { useSelector } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { Gameboard } from './Gameboard';
 import { GameInfo } from './GameInfo';
 import { Inventory } from './Inventory';
@@ -14,18 +15,15 @@ const gameStyle: Properties = {
     width: '100vw'
 };
 
-const mapStateToProps = ({ auth }: FullState) => ({ auth });
-const mapActionsToProps = {};
-const connector = connect(mapStateToProps, mapActionsToProps);
+export const Game = () => {
+    const { auth } = useSelector((state: FullState) => state);
 
-type PropsFromRedux = ConnectedProps<typeof connector>;
-type Props = PropsFromRedux & {};
-
-export const UnconnectedGame = ({ auth }: Props) => {
-    if (!auth.session.game) {
-        // TODO: better protected routing / authentication check? (finish a more complete typing of the state)
-        return <Redirect to="/?error=not_authenticated" />;
-    }
+    const history = useHistory();
+    useEffect(() => {
+        if (!auth.session.game) {
+            history.push('/?error=not_authenticated');
+        }
+    });
 
     return (
         <div style={gameStyle}>
@@ -36,5 +34,3 @@ export const UnconnectedGame = ({ auth }: Props) => {
         </div>
     );
 };
-
-export const Game = connector(UnconnectedGame);

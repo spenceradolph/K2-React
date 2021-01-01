@@ -32,7 +32,14 @@ router.get('/credits', (req, res) => {
     }
 });
 
-router.get('/teacher', (_req, res) => {
+router.get('/teacher', (req, res) => {
+    console.log(req.session.ir2);
+
+    // if (!req.session.ir2 || !req.session.ir2.teacher) {
+    //     res.redirect('/?error=unauthenticated'); // TODO: standardize errors (possibly with react components)
+    //     return;
+    // }
+
     if (process.env.NODE_ENV == 'production') {
         res.sendFile(`${__dirname}/build/index.html`);
     } else {
@@ -40,7 +47,12 @@ router.get('/teacher', (_req, res) => {
     }
 });
 
-router.get('/courseDirector', (_req, res) => {
+router.get('/courseDirector', (req, res) => {
+    if (!req.session.ir2 || !req.session.ir2.courseDirector) {
+        res.redirect('/?error=unauthenticated');
+        return;
+    }
+
     if (process.env.NODE_ENV == 'production') {
         res.sendFile(`${__dirname}/build/index.html`);
     } else {
@@ -48,7 +60,12 @@ router.get('/courseDirector', (_req, res) => {
     }
 });
 
-router.get('/game', (_req, res) => {
+router.get('/game', (req, res) => {
+    if (!req.session.ir2 || !req.session.ir2.game) {
+        res.redirect('/?error=unauthenticated');
+        return;
+    }
+
     if (process.env.NODE_ENV == 'production') {
         res.sendFile(`${__dirname}/build/index.html`);
     } else {
@@ -56,7 +73,9 @@ router.get('/game', (_req, res) => {
     }
 });
 
-router.get('*', (_req, res) => {
+router.get('*', (req, res) => {
+    req.session.ir2 = {};
+
     if (process.env.NODE_ENV == 'production') {
         res.sendFile(`${__dirname}/build/index.html`);
     } else {

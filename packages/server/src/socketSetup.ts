@@ -25,7 +25,7 @@ export const socketSetup = async (socket: Socket) => {
     }
 
     if (socket.request.session.ir2) {
-        let ir2 = socket.request.session.ir2;
+        const ir2 = socket.request.session.ir2;
         const authenticateAction: AuthenticateAction = {
             type: AUTHENTICATED,
             payload: {
