@@ -1,0 +1,14 @@
+{
+    "name": "@monorepo/common",
+    "private": true,
+    "version": "1.0.0",
+    "main": "dist/index",
+    "types": "dist/index",
+    "scripts": {
+        "build": "tsc --build --force ./tsconfig.json",
+        "build:watch": "npm run build && tsc --watch"
+    },
+    "devDependencies": {
+        "typescript": "^4.1.3"
+    }
+}

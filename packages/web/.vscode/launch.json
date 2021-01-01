@@ -1,0 +1,14 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Web",
+            "type": "chrome",
+            "request": "launch",
+            "preLaunchTask": "npm: start",
+            "postDebugTask": "Terminate All Tasks",
+            "url": "http://localhost:3000",
+            "webRoot": "${workspaceFolder}/src"
+        }
+    ]
+}
