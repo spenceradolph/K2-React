@@ -1,7 +1,11 @@
 import { addGame, AuthState, CourseDirectorState, deleteGame } from '@monorepo/common';
-import { useHistory } from 'react-router-dom';
-import { FormEvent, useState } from 'react';
 import { Properties } from 'csstype';
+import { FormEvent, useState } from 'react';
+import { useHistory } from 'react-router-dom';
+
+const styling: Properties = {
+    border: '1px solid #555555'
+};
 
 interface Props {
     auth: AuthState;
@@ -9,10 +13,6 @@ interface Props {
     addGame: typeof addGame;
     deleteGame: typeof deleteGame;
 }
-
-const styling: Properties = {
-    border: '1px solid #555555'
-};
 
 export const CourseDirector = ({ auth, courseDirector, addGame, deleteGame }: Props) => {
     const history = useHistory();

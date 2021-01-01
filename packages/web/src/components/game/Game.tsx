@@ -1,7 +1,7 @@
+import { FullState } from '@monorepo/common';
 import { Properties } from 'csstype';
-import { connect } from 'react-redux';
+import { connect, ConnectedProps } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { AuthState, FullState } from '@monorepo/common';
 import { Gameboard } from './Gameboard';
 import { GameInfo } from './GameInfo';
 import { Inventory } from './Inventory';
@@ -14,9 +14,12 @@ const gameStyle: Properties = {
     width: '100vw'
 };
 
-interface Props {
-    auth: AuthState;
-}
+const mapStateToProps = ({ auth }: FullState) => ({ auth });
+const mapActionsToProps = {};
+const connector = connect(mapStateToProps, mapActionsToProps);
+
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromRedux & {};
 
 export const UnconnectedGame = ({ auth }: Props) => {
     if (!auth.session.game) {
@@ -34,9 +37,4 @@ export const UnconnectedGame = ({ auth }: Props) => {
     );
 };
 
-const mapStateToProps = ({ auth }: FullState) => ({
-    auth
-});
-const mapActionsToProps = {};
-
-export const Game = connect(mapStateToProps, mapActionsToProps)(UnconnectedGame);
+export const Game = connector(UnconnectedGame);

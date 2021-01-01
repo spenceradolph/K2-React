@@ -5,6 +5,8 @@ import { Socket } from 'socket.io-client';
 import { CLIENT_ACTION, SERVER_ACTION, SERVER_REDIRECT } from '.';
 import { rootReducer } from './reducers';
 
+export type Emit = (action: AnyAction) => Socket;
+
 export const setupStore = (socket: Socket) => {
     socket.on(SERVER_ACTION, (reduxAction: AnyAction) => {
         store.dispatch(reduxAction);

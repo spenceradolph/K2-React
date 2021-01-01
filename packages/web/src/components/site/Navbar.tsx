@@ -1,8 +1,9 @@
+import { unauthenticate } from '@monorepo/common';
 import { NavLink, Route, Switch } from 'react-router-dom';
 
-interface Props {
-    unauthenticate: any;
-}
+type Props = {
+    unauthenticate: typeof unauthenticate;
+};
 
 export const Navbar = ({ unauthenticate }: Props) => {
     return (

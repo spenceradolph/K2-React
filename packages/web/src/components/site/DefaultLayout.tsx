@@ -1,26 +1,21 @@
-import { Helmet } from 'react-helmet';
-import { connect } from 'react-redux';
-import { Route, Switch } from 'react-router-dom';
 // prettier-ignore
-import { addGame, adminLogin, AuthState, CourseDirectorState, deleteGame, FullState, login, unauthenticate, toggleActive, resetGame } from '@monorepo/common';
+import { addGame, adminLogin, deleteGame, FullState, login, resetGame, toggleActive, unauthenticate } from '@monorepo/common';
+import { Helmet } from 'react-helmet';
+import { connect, ConnectedProps } from 'react-redux';
+import { Route, Switch } from 'react-router-dom';
 import { Navbar } from './Navbar';
 import { CourseDirector, Credits, Homepage, NotFound, Teacher, Troubleshoot } from './pages';
 
-interface Props {
-    auth: AuthState;
-    courseDirector: CourseDirectorState;
-    login: any;
-    adminLogin: any;
-    unauthenticate: any;
-    addGame: any; // TODO: able to set type within courseDirector, but not here...
-    deleteGame: any;
-    toggleActive: any;
-    resetGame: any;
-}
+const mapStateToProps = ({ auth, courseDirector }: FullState) => ({ auth, courseDirector });
+const mapActionsToProps = { login, adminLogin, unauthenticate, addGame, deleteGame, toggleActive, resetGame };
+const connector = connect(mapStateToProps, mapActionsToProps);
 
-// TODO: don't ignore this?
-// prettier-ignore
-export const UnconnectedDefaultLayout = ({ auth, login, adminLogin, unauthenticate, courseDirector, addGame, deleteGame, toggleActive, resetGame }: Props) => {
+type PropsFromRedux = ConnectedProps<typeof connector>;
+type Props = PropsFromRedux & {};
+
+const UnconnectedDefaultLayout = (props: Props) => {
+    const { auth, login, adminLogin, unauthenticate, courseDirector, addGame, deleteGame, toggleActive, resetGame } = props;
+
     return (
         <div>
             <Navbar unauthenticate={unauthenticate} />
@@ -54,15 +49,4 @@ export const UnconnectedDefaultLayout = ({ auth, login, adminLogin, unauthentica
     );
 };
 
-const mapStateToProps = ({ auth, courseDirector }: FullState) => ({ auth, courseDirector });
-const mapActionsToProps = {
-    login,
-    adminLogin,
-    unauthenticate,
-    addGame,
-    deleteGame,
-    toggleActive,
-    resetGame
-};
-
-export const DefaultLayout = connect(mapStateToProps, mapActionsToProps)(UnconnectedDefaultLayout);
+export const DefaultLayout = connector(UnconnectedDefaultLayout);

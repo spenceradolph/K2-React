@@ -1,11 +1,11 @@
-import { AuthState, BLUE, RED, SPEC } from '@monorepo/common';
+import { adminLogin, AuthState, BLUE, login, RED, SPEC, TeamType } from '@monorepo/common';
 import { FormEvent, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 interface Props {
     auth: AuthState;
-    login: (section: string, instructor: string, team: number) => void; // TODO: figure out better typing (ideally -> 'typeof login')
-    adminLogin: (section: string, instructor: string, password: string) => void;
+    login: typeof login;
+    adminLogin: typeof adminLogin;
 }
 
 export const Homepage = ({ login, auth, adminLogin }: Props): any => {
@@ -20,7 +20,7 @@ export const Homepage = ({ login, auth, adminLogin }: Props): any => {
 
     const [section, setSection] = useState('');
     const [instructor, setInstructor] = useState('');
-    const [team, setTeam] = useState(SPEC);
+    const [team, setTeam] = useState<TeamType>(SPEC);
 
     const [adminSection, setAdminSection] = useState('');
     const [adminInstructor, setAdminInstructor] = useState('');

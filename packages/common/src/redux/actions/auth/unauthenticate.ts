@@ -1,5 +1,6 @@
 import { Dispatch } from 'redux';
 import { FullState } from '../../reducers';
+import { Emit } from '../../setupStore';
 
 export const UNAUTHENTICATE = 'UNAUTHENTICATE';
 
@@ -7,8 +8,8 @@ export type UnauthenticateAction = {
     type: typeof UNAUTHENTICATE;
 };
 
-export const unauthenticate = (section: string, instructor: string, team: number) => {
-    return (dispatch: Dispatch, getState: () => FullState, sendToServer: any) => {
+export const unauthenticate = async () => {
+    return (dispatch: Dispatch, getState: () => FullState, sendToServer: Emit) => {
         const { auth } = getState();
 
         // Already Unauthenticated

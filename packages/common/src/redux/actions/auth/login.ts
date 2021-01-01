@@ -1,6 +1,7 @@
 import { BLUE, RED, SPEC } from '../../../constants';
 import { Dispatch } from 'redux';
 import { FullState } from '../../reducers';
+import { Emit } from '../../setupStore';
 
 export const LOGIN = 'LOGIN';
 
@@ -15,8 +16,8 @@ export type LoginAction = {
     };
 };
 
-export const login = (section: string, instructor: string, team: TeamType) => {
-    return (dispatch: Dispatch, getState: () => FullState, sendToServer: any) => {
+export const login = async (section: string, instructor: string, team: TeamType) => {
+    return (dispatch: Dispatch, getState: () => FullState, sendToServer: Emit) => {
         const loginAction: LoginAction = {
             type: LOGIN,
             payload: {
