@@ -9,7 +9,7 @@
         "dev:server": "yarn workspace @monorepo/server dev",
         "build": "yarn clean && yarn build:common && yarn build:web && yarn build:server && mv packages/server/dist . && mv packages/web/build ./dist",
         "build:common": "yarn workspace @monorepo/common build",
-        "build:web": "yarn workspace @monorepo/web build",
+        "build:web": "yarn workspace @monorepo/web build && mv ./packages/web/build/index.html ./packages/web/build/web.html",
         "build:server": "yarn workspace @monorepo/server build",
         "start": "cross-env NODE_ENV=production node ./dist/index.js",
         "clean": "rm -rf dist packages/web/build packages/web/.eslintcache packages/server/dist packages/common/dist packages/server/tsconfig.tsbuildinfo packages/common/tsconfig.tsbuildinfo",

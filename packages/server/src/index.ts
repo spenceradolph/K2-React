@@ -17,7 +17,7 @@ const sessionMiddleware = session({
     store: new MemoryStore({
         checkPeriod: 8 * 60 * 60 * 1000
     }),
-    cookie: { maxAge: 8 * 60 * 60 * 1000 }, // 8 hours
+    // cookie: { maxAge: 8 * 60 * 60 * 1000 }, // 8 hours
     resave: true,
     saveUninitialized: true
 });
